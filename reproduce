@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+rm dev.db
+sqlite3 dev.db <<EOF
+			create table if not exists identity (
+				id TEXT PRIMARY KEY
+			);
+
+			create table if not exists email (
+				id TEXT PRIMARY KEY,
+				identity_id TEXT NOT NULL REFERENCES identity(id),
+
+				email TEXT UNIQUE NOT NULL
+			);
+EOF
+mvn clean compile
